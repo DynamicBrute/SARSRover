@@ -1,6 +1,7 @@
 #include "Navigation.h"
 
 float tarHead;
+boolean avoidObst;
 
 void getTargetHeading()
 {

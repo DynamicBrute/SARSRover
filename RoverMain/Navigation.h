@@ -14,6 +14,7 @@
 #define headingLimit 20
 
 extern float tarHead;
+extern boolean avoidObst;
 
 //Calculate the target heading based on current GPS location
 //and target GPS location

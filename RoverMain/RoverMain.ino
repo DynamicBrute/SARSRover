@@ -39,7 +39,7 @@ void setup()
   
   //Sabertooth
   //startSbth(true);
-  startSbth(false);
+  startSbth(true);
   
   ledCode(1);
   //GPS
@@ -99,6 +99,7 @@ void setup()
   
   RS = WAIT_FOR_TARGET;
   OBJ_RETRIEVED = false;  
+  avoidObst = false;
 }
 
 void loop()
@@ -131,7 +132,9 @@ void loop()
     
     case ORIENT_TO_TARGET:
           ledCode(5);
+          
           getTargetHeading();
+            
           ledCode(6);
           turnToHeading();
           
@@ -165,15 +168,15 @@ void loop()
             break;
           }
           
-          /*
+          
           if(curSpeed < DRIVE_SPEED)
           {
-            setAccel(FORWARD, DRIVE_SPEED, (DRIVE_SPEED - curSpeed) * 100);
+            setAccel(FORWARD, DRIVE_SPEED, (DRIVE_SPEED - curSpeed) * 50);
             RS = ACCELERATING;
           }
-          else
+          /*else
           {
-            setAccel(FORWARD, 0, (curSpeed - 0) * 100);
+            setAccel(FORWARD, 0, (curSpeed - 0) * 50);
             RS = DECELERATING;
           }*/
           
@@ -199,8 +202,30 @@ void loop()
     
     case OBST_AVOID:
           ledCode(15);
+          //avoidObst = true;
+          
+          //Stop the rover
+          setAccel(FORWARD, 0, (curSpeed - 0) * 10);
+          while(curSpeed != 0)
+          {
+            decelerate();
+          }
+          
+          //Turn away from the obstacle
+          readMag();
+          tarHead = (int)(curHead + 90) % 360;
+          turnToHeading();
+          
+          setAccel(FORWARD, DRIVE_SPEED, (DRIVE_SPEED - curSpeed) * 50);
+          while(curSpeed != DRIVE_SPEED)
+          {
+            accelerate();
+          }
+          
           delay(2000);
+          
           RS = ORIENT_TO_TARGET;
+          
           break;
     
     case OBJ_RETR:
