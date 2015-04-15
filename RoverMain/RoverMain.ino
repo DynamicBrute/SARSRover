@@ -84,10 +84,10 @@ void setup()
     delay(100);
   }*/
   
-  curLon = -81.202980;
+  /*curLon = -81.202980;
   curLat = 28.582378;
   tarLat = 28.582183f;
-  tarLon = -81.202770f;
+  tarLon = -81.202770f;*/
   
   Serial.print(curLat);
   Serial.print(" ");
@@ -97,7 +97,7 @@ void setup()
   Serial.println(tarLon);
   
   
-  RS = IN_TRANSIT;
+  RS = WAIT_FOR_TARGET;
   OBJ_RETRIEVED = false;  
 }
 
@@ -105,7 +105,7 @@ void loop()
 {
   //if(pollPing() < 100 && RS != WAIT_FOR_TARGET && !atDestination())
     //RS = OBST_AVOID;
-  
+
   switch(RS)
   {
     case WAIT_FOR_TARGET:
@@ -117,7 +117,7 @@ void loop()
     
     case ORIENT_TO_TARGET:
           ledCode(5);
-          //pullCurrentLocation();
+          pullCurrentLocation();
           ledCode(6);
           getTargetHeading();
           ledCode(7);

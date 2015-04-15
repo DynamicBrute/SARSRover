@@ -27,9 +27,14 @@ void startGPS()
 {
   Serial2.begin(9600);
   
-  Serial2.println(PMTK_SET_NMEA_UPDATE_1HZ);
-  Serial2.println(PMTK_API_SET_FIX_CTL_200_MILLIHERTZ);
+  Serial2.println(PMTK_SET_BAUD_57600);
+  
+  Serial2.begin(57600);
+  
+  Serial2.println(PMTK_SET_NMEA_UPDATE_10HZ);
+  Serial2.println(PMTK_API_SET_FIX_CTL_100_MILLIHERTZ);
   Serial2.println(PMTK_SET_NMEA_OUTPUT_RMCONLY);
+  
   
   updated = false;
   while(!fix)
@@ -50,7 +55,7 @@ void startGPS()
 
 boolean parse(char *nmea)
 {
-  //Serial.println("parsing");
+  Serial.println("parsing");
   
   // do checksum check
 
@@ -75,6 +80,10 @@ boolean parse(char *nmea)
   
   if (strstr(nmea, "$GPRMC")) {
    updated = true;
+   
+   curLon = -81.202980;
+  curLat = 28.582378;
+  
     // found RMC
     char *p = nmea;
 
@@ -97,7 +106,7 @@ boolean parse(char *nmea)
       fix = true;//////////////////////////////////////////////////////////////////////////////////////////////////////////
     else
       return false;
-
+    
     // parse out latitude
     p = strchr(p, ',')+1;
     if (',' != *p)
@@ -115,7 +124,6 @@ boolean parse(char *nmea)
       latitude = degree / 100000 + minutes * 0.000006F;
       curLat = (latitude-100*int(latitude/100))/60.0;
       curLat += int(latitude/100);
-      curLat = 28.582378;//////////////////////////////////////////////////////////////////////////////////////////////////////
     }
     
     p = strchr(p, ',')+1;
@@ -145,9 +153,6 @@ boolean parse(char *nmea)
       longitude = degree / 100000 + minutes * 0.000006F;
       curLon = (longitude-100*int(longitude/100))/60.0;
       curLon += int(longitude/100);
-      Serial.println(curLon);
-      curLon = -81.202980;//////////////////////////////////////////////////////////////////////////////////////////////////////
-      Serial.println(curLon);
     }
     
     p = strchr(p, ',')+1;
