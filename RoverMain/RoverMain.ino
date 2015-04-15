@@ -89,12 +89,12 @@ void setup()
   tarLat = 28.582183f;
   tarLon = -81.202770f;*/
   
-  Serial.print(curLat);
+  /*Serial.print(curLat);
   Serial.print(" ");
   Serial.println(curLon);
   Serial.print(tarLat);
   Serial.print(" ");
-  Serial.println(tarLon);
+  Serial.println(tarLon);*/
   
   
   RS = WAIT_FOR_TARGET;
@@ -103,8 +103,8 @@ void setup()
 
 void loop()
 {
-  //if(pollPing() < 100 && RS != WAIT_FOR_TARGET && !atDestination())
-    //RS = OBST_AVOID;
+  if(pollPing() < 1.0 && RS != WAIT_FOR_TARGET && !atDestination())
+    RS = OBST_AVOID;
     
   pullCurrentLocation();
   readMag();
@@ -198,7 +198,9 @@ void loop()
           break;
     
     case OBST_AVOID:
-    
+          ledCode(15);
+          delay(2000);
+          RS = ORIENT_TO_TARGET;
           break;
     
     case OBJ_RETR:

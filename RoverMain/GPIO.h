@@ -13,9 +13,11 @@
 //PING)))////////////////////////////////////////
 #define PING PE_5
 
+#define msToCM(dur) ((dur / 29 / 2) * .01)
+
 //Get the distance in inches to the nearest object in front
 //of the PING)))
-int pollPing();
+float pollPing();
 /////////////////////////////////////////////////
 
 void startGPIO();
