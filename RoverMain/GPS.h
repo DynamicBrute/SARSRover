@@ -40,4 +40,4 @@ uint8_t parseHex(char c);
 void printRMC();
 
 //Update GPS data
-void pullCurrentLocation();
+boolean pullCurrentLocation();

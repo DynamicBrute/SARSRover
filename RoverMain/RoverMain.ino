@@ -105,22 +105,34 @@ void loop()
 {
   //if(pollPing() < 100 && RS != WAIT_FOR_TARGET && !atDestination())
     //RS = OBST_AVOID;
+    
+  pullCurrentLocation();
+  readMag();
+  
+  boolean temp1;
 
   switch(RS)
   {
     case WAIT_FOR_TARGET:
           ledCode(4);
           waitForTarget();
+          RS = WAIT_FOR_LOC_UPDATE;
+          
+          break;
+          
+    case WAIT_FOR_LOC_UPDATE:
+          
+          
+          while(!pullCurrentLocation());
+          
           RS = ORIENT_TO_TARGET;
           
           break;
     
     case ORIENT_TO_TARGET:
           ledCode(5);
-          pullCurrentLocation();
-          ledCode(6);
           getTargetHeading();
-          ledCode(7);
+          ledCode(6);
           turnToHeading();
           
           RS = IN_TRANSIT;
@@ -128,9 +140,11 @@ void loop()
           break;
     
     case IN_TRANSIT:
-          ledCode(8);
-          //if necesssary, correct heading
+          ledCode(7);
           
+          //Serial.println("in transit");
+          
+          //if necesssary, correct heading
           if(!inHeadingRange())
           {
             RS = ORIENT_TO_TARGET;
@@ -151,6 +165,7 @@ void loop()
             break;
           }
           
+          /*
           if(curSpeed < DRIVE_SPEED)
           {
             setAccel(FORWARD, DRIVE_SPEED, (DRIVE_SPEED - curSpeed) * 100);
@@ -160,7 +175,7 @@ void loop()
           {
             setAccel(FORWARD, 0, (curSpeed - 0) * 100);
             RS = DECELERATING;
-          }
+          }*/
           
           break;
     

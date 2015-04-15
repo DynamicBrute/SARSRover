@@ -37,8 +37,8 @@ void startGPS()
   
   
   updated = false;
-  while(!fix)
-    pullCurrentLocation();
+  while(!fix && !pullCurrentLocation());
+    //pullCurrentLocation();
   
   homeLat = curLat;
   homeLon = curLon;
@@ -266,12 +266,9 @@ void printRMC()
    }
 }
 
-void pullCurrentLocation()
+boolean pullCurrentLocation()
 {
-  boolean success = false;
-  
-  while(!success)
-  {
+
     delay(100);
     char c;
     if(Serial2.available())
@@ -300,10 +297,10 @@ void pullCurrentLocation()
           //Serial.println("VALID");
           delay(1000);
           //debugClient.println("VALID");
-          success = true;
+          //success = true;
           //Serial.println("about to print");
           //printRMC();
-          return;
+          return true;
         }/*
         else
         {
@@ -316,5 +313,6 @@ void pullCurrentLocation()
       }
   
     }
-  }
+    
+    return false;
 }

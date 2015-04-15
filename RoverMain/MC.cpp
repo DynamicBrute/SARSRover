@@ -75,12 +75,12 @@ void transmit(int command, int data)
     
     if(motorEnable)
     {
-      Serial.print("transmitting ");
-      Serial.print(data);
-      Serial.print(" ");
-      Serial.print(command1);
-      Serial.print(" ");
-      Serial.println(command2);
+      //Serial.print("transmitting ");
+      //Serial.print(data);
+      //Serial.print(" ");
+      //Serial.print(command1);
+      //Serial.print(" ");
+      //Serial.println(command2);
       
       Serial6.write(command1);
       Serial6.write(command2);
@@ -102,15 +102,15 @@ void setAccel(int command, int finalS, int accRate)
 
 void accelerate()
 {
-  Serial.print(ADCommand);
-  Serial.print(" ");
-  Serial.print(finalSpeed);
-  Serial.print(" ");
-  Serial.print(initialSpeed);
-  Serial.print(" ");
-  Serial.print(currentSpeed);
-  Serial.print(" ");
-  Serial.println(rate);
+  //Serial.print(ADCommand);
+  //Serial.print(" ");
+  //Serial.print(finalSpeed);
+  //Serial.print(" ");
+  //Serial.print(initialSpeed);
+  //Serial.print(" ");
+  //Serial.print(currentSpeed);
+  //Serial.print(" ");
+  //Serial.println(rate);
   currentSpeed += ACCEL_STEP;  
   transmit(ADCommand, currentSpeed);
   delay(rate / ((finalSpeed - initialSpeed) / ACCEL_STEP));
@@ -118,15 +118,15 @@ void accelerate()
 
 void decelerate()
 {
-  Serial.print(ADCommand);
-  Serial.print(" ");
-  Serial.print(finalSpeed);
-  Serial.print(" ");
-  Serial.print(initialSpeed);
-  Serial.print(" ");
-  Serial.print(currentSpeed);
-  Serial.print(" ");
-  Serial.println(rate);  
+  //Serial.print(ADCommand);
+  //Serial.print(" ");
+  //Serial.print(finalSpeed);
+  //Serial.print(" ");
+  //Serial.print(initialSpeed);
+  //Serial.print(" ");
+  //Serial.print(currentSpeed);
+  //Serial.print(" ");
+  //Serial.println(rate);  
   currentSpeed -= ACCEL_STEP;  
     transmit(ADCommand, currentSpeed);
     delay(rate / ((initialSpeed - finalSpeed) / ACCEL_STEP));

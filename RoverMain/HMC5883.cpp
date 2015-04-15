@@ -94,8 +94,8 @@ void readMag()
   // Convert radians to degrees for readability.
   curHead = heading * 180/M_PI; 
   
-  Serial.print("Heading (degrees): "); Serial.println(curHead);
-  debugClient.print("Heading (degrees): "); debugClient.println(curHead);
+  //Serial.print("Heading (degrees): "); Serial.println(curHead);
+  //debugClient.print("Heading (degrees): "); debugClient.println(curHead);
 }
 
 void setMagGain(hmc5883MagGain gain)
