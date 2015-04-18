@@ -6,6 +6,12 @@
 #define S1 PUSH1
 #define DR PE_5
 
+// Converts degrees to radians.
+#define degreesToRadians(angleDegrees) (angleDegrees * M_PI / 180.0)
+ 
+// Converts radians to degrees.
+#define radiansToDegrees(angleRadians) (angleRadians * 180.0 / M_PI)
+
 float magX, magY, magZ, headingDegrees;
 
 uint8_t xhi, xlo, zhi, zlo, yhi, ylo;
@@ -63,6 +69,46 @@ void loop()
 {
   
   readMag();
+  
+  float curLat = 28.628305;
+  float curLon = -81.199620;
+  float tarLat = 28.628391;
+  float tarLon = -81.200013;
+  float curLatR = degreesToRadians(curLat);
+  float curLonR = degreesToRadians(curLon);
+  float tarLatR = degreesToRadians(tarLat);
+  float tarLonR = degreesToRadians(tarLon);
+  
+  Serial.print(curLatR);
+  Serial.print(" ");
+  Serial.println(curLonR);
+  Serial.print(tarLatR);
+  Serial.print(" ");
+  Serial.println(tarLonR);
+  
+  float tarHead = atan2(cos(degreesToRadians(curLat)) * sin(degreesToRadians(tarLat)) - sin(degreesToRadians(curLat)) * cos(degreesToRadians(tarLat)) * cos(degreesToRadians(tarLon - curLon)), sin(degreesToRadians(tarLon - curLon)) * cos(degreesToRadians(tarLat)));
+  float tarHead2 = atan2(sin(tarLonR - curLonR) * cos(tarLatR), cos(curLatR) * sin(tarLatR) - sin(curLatR) * cos(tarLatR) * cos(tarLonR - curLonR));
+  
+  Serial.print("target heading: ");
+  Serial.println(radiansToDegrees(tarHead));
+  Serial.print("target heading2: ");
+  Serial.println((radiansToDegrees(tarHead2) + 360));
+  
+  
+  float R = 6371000; // m
+    float temp1 = tarLat - curLat;
+    float temp2 = tarLon - curLon;
+    float dLat = degreesToRadians(temp1);
+    float dLon = degreesToRadians(temp2); 
+    float a = sin(dLat/2) * sin(dLat/2) +
+        cos(degreesToRadians(curLat)) * cos(degreesToRadians(tarLat)) * 
+        sin(dLon/2) * sin(dLon/2); 
+    float c = 2 * atan2(sqrt(a), sqrt(1-a)); 
+    float d = R * c;
+    
+  Serial.print("target distance: ");
+  Serial.println(radiansToDegrees(d));
+  
   delay(1000);
   //Serial.println();
   /*

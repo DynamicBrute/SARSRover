@@ -81,8 +81,8 @@ boolean parse(char *nmea)
   if (strstr(nmea, "$GPRMC")) {
    updated = true;
    
-   curLon = -81.202980;
-  curLat = 28.582378;
+  //curLon = -81.202980;
+  //curLat = 28.582378;
   
     // found RMC
     char *p = nmea;
@@ -102,8 +102,8 @@ boolean parse(char *nmea)
     if (p[0] == 'A') 
       fix = true;
     else if (p[0] == 'V')
-      //fix = false;
-      fix = true;//////////////////////////////////////////////////////////////////////////////////////////////////////////
+      fix = false;
+      //fix = true;//////////////////////////////////////////////////////////////////////////////////////////////////////////
     else
       return false;
     
@@ -223,21 +223,21 @@ void printRMC()
     Serial.print("Fix: "); Serial.print((int)fix);
     Serial.print(" quality: "); Serial.println((int)fixquality); 
     if (fix) {
-      Serial.print("Location: ");
-      Serial.print(latitude, 4); Serial.print(lat);
-      Serial.print(", "); 
-      Serial.print(longitude, 4); Serial.println(lon);
+      //Serial.print("Location: ");
+      //Serial.print(latitude, 4); Serial.print(lat);
+      //Serial.print(", "); 
+      //Serial.print(longitude, 4); Serial.println(lon);
       Serial.print("Location (in degrees, works with Google Maps): ");
       Serial.print(curLat, 4);
       Serial.print(", "); 
       Serial.println(curLon, 4);
       
       Serial.print("Speed (knots): "); Serial.println(speed);
-      Serial.print("Angle: "); Serial.println(angle);
-      Serial.print("Altitude: "); Serial.println(altitude);
-      Serial.print("Satellites: "); Serial.println((int)satellites);
+      //Serial.print("Angle: "); Serial.println(angle);
+      //Serial.print("Altitude: "); Serial.println(altitude);
+      //Serial.print("Satellites: "); Serial.println((int)satellites);
    }
-   
+   /*
    debugClient.print("\nTime: ");
     debugClient.print(hour, DEC); debugClient.print(':');
     debugClient.print(minute, DEC); debugClient.print(':');
@@ -263,13 +263,13 @@ void printRMC()
       debugClient.print("Angle: "); debugClient.println(angle);
       debugClient.print("Altitude: "); debugClient.println(altitude);
       debugClient.print("Satellites: "); debugClient.println((int)satellites);
-   }
+   }*/
 }
 
 boolean pullCurrentLocation()
 {
 
-    delay(100);
+    //delay(100);
     char c;
     if(Serial2.available())
     {
@@ -299,7 +299,7 @@ boolean pullCurrentLocation()
           //debugClient.println("VALID");
           //success = true;
           //Serial.println("about to print");
-          //printRMC();
+          printRMC();
           return true;
         }/*
         else

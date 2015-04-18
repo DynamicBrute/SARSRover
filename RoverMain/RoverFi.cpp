@@ -192,8 +192,8 @@ void waitForTarget()
   //tarLon = -81.457456f;
   
   //apt
-  tarLat = 28.582183f;
-  tarLon = -81.202770f;
+  //tarLat = 28.582183f;
+  //tarLon = -81.202770f;
   
   //curLat = 28.628811f;
   //curLon = -81.199479f;
@@ -201,4 +201,8 @@ void waitForTarget()
   //mem mall
   //curLat = 28.603492;
   //curLon = -81.198982;
+  
+  //matt's
+  tarLat = 28.628391;
+  tarLon = -81.200013;
 }

@@ -11,6 +11,16 @@ void getTargetHeading()
 //var Δφ = (lat2-lat1).toRadians();
 //var Δλ = (lon2-lon1).toRadians();
   readMag();
+  
+  float curLatR = degreesToRadians(curLat);
+  float curLonR = degreesToRadians(curLon);
+  float tarLatR = degreesToRadians(tarLat);
+  float tarLonR = degreesToRadians(tarLon);
+  
+  float tarHead2 = atan2(sin(tarLonR - curLonR) * cos(tarLatR), cos(curLatR) * sin(tarLatR) - sin(curLatR) * cos(tarLatR) * cos(tarLonR - curLonR));
+  
+  tarHead = (int)(radiansToDegrees(tarHead2) + 360) % 360;
+  /*
   Serial.print("heading: " );
   Serial.println(curHead);
   //tarHead = tan((tarLon - curLon) / (tarLat - curLat));
@@ -22,7 +32,7 @@ void getTargetHeading()
   Serial.println(tarHead, 8);
   tarHead = radiansToDegrees(tarHead);
   if(tarHead < 0)
-    tarHead += 360;
+    tarHead += 360;*/
   Serial.print("target heading: ");
   Serial.println(tarHead);
 }
@@ -33,7 +43,7 @@ boolean turnToHeading()
   
   int dirCommand = getDirCommand();
   
-  transmit(dirCommand, 45);
+  transmit(dirCommand, TURN_SPEED);
   
   while(!inHeadingRange())// && getDirCommand() == dirCommand)
   {
@@ -82,8 +92,10 @@ float distToTar()
     float temp2 = tarLon - curLon;
     float dLat = degreesToRadians(temp1);
     float dLon = degreesToRadians(temp2); 
+    float curLatR = degreesToRadians(curLat);
+    float tarLatR = degreesToRadians(tarLat);
     float a = sin(dLat/2) * sin(dLat/2) +
-        cos(degreesToRadians(curLat)) * cos(degreesToRadians(tarLat)) * 
+        cos(curLatR) * cos(tarLatR) * 
         sin(dLon/2) * sin(dLon/2); 
     float c = 2 * atan2(sqrt(a), sqrt(1-a)); 
     float d = R * c;

@@ -81,7 +81,7 @@ void readMag()
   // Find yours here: http://www.magnetic-declination.com/
   // Mine is: -13* 2' W, which is ~13 Degrees, or (which we need) 0.22 radians
   // If you cannot find your Declination, comment out these two lines, your compass will be slightly off.
-  heading += declinationAngle + degreesToRadians(angleCorrection);
+  heading += declinationAngle; //+ degreesToRadians(angleCorrection);
   
   // Correct for when signs are reversed.
   if(heading < 0)
@@ -94,7 +94,7 @@ void readMag()
   // Convert radians to degrees for readability.
   curHead = heading * 180/M_PI; 
   
-  //Serial.print("Heading (degrees): "); Serial.println(curHead);
+  Serial.print("Heading (degrees): "); Serial.println(curHead);
   //debugClient.print("Heading (degrees): "); debugClient.println(curHead);
 }
 

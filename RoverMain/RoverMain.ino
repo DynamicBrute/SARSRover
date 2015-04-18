@@ -39,7 +39,7 @@ void setup()
   
   //Sabertooth
   //startSbth(true);
-  startSbth(true);
+  startSbth(false);
   
   ledCode(1);
   //GPS
@@ -104,10 +104,12 @@ void setup()
 
 void loop()
 {
-  if(pollPing() < 1.0 && RS != WAIT_FOR_TARGET && !atDestination())
-    RS = OBST_AVOID;
-    
-  pullCurrentLocation();
+  if(pollPing() < 1.0 && RS != WAIT_FOR_TARGET && !atDestination());
+    //RS = OBST_AVOID;
+  
+  boolean prevPull = false;
+  for(int i = 0; i < 60 && !prevPull; i++)
+    pullCurrentLocation();
   readMag();
   
   boolean temp1;
@@ -145,7 +147,8 @@ void loop()
     case IN_TRANSIT:
           ledCode(7);
           
-          //Serial.println("in transit");
+          Serial.print("in transit ");
+          Serial.println(distToTar());
           
           //if necesssary, correct heading
           if(!inHeadingRange())
@@ -229,6 +232,9 @@ void loop()
           break;
     
     case OBJ_RETR:
+          
+          ledCode(10);
+          delay(10000);
           
           OBJ_RETRIEVED = true;
           RS = RETURN_HOME;
