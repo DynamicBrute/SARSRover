@@ -2,9 +2,9 @@
 #include "GPS.h"
 //#include "RoverMain.h"
 
-char ssid[] = "42";
+char ssid[] = "SARSNet";
 // your network password
-char password[] = "brainNet";
+char password[] = "sarsrover";
 
 
 WiFiClient debugClient;
@@ -12,6 +12,7 @@ WiFiClient debugClient;
 //Server object, the argument is the port that it listens too
 WiFiServer debugServer(3284);
 WiFiServer mainServer(7277);
+WiFiServer teleServer(8353);
 
 boolean alreadyConnected, alreadyConnectedMain;
 
@@ -23,12 +24,12 @@ void startWiFi()
     // print the network name (SSID);
     Serial.println(ssid); 
     // Connect to WPA/WPA2 network. Change this line if using open or WEP network:
-    WiFi.begin(ssid, password);
-    while ( WiFi.status() != WL_CONNECTED) {
+    WiFi.beginNetwork(ssid, password);
+   /* while ( WiFi.status() != WL_CONNECTED) {
       // print dots while we wait to connect
       Serial.print(".");
       delay(300);
-    }
+    }*/
     
     Serial.println("\nYou're connected to the network");
     Serial.println("Waiting for an ip address");
@@ -195,14 +196,18 @@ void waitForTarget()
   //tarLat = 28.582183f;
   //tarLon = -81.202770f;
   
+  //apt 2
+  //tarLat = 28.582373f;
+  //tarLon = -81.202996f;
+  
   //curLat = 28.628811f;
   //curLon = -81.199479f;
   
   //mem mall
-  //curLat = 28.603492;
-  //curLon = -81.198982;
+  tarLat = 28.603710f;
+  tarLon = -81.199371f;
   
   //matt's
-  tarLat = 28.628391;
-  tarLon = -81.200013;
+  //tarLat = 28.628391;
+  //tarLon = -81.200013;
 }

@@ -11,6 +11,7 @@ extern char password[];
 extern WiFiClient debugClient;
 extern WiFiServer debugServer;
 extern WiFiServer mainServer;
+extern WiFiServer teleServer;
 
 extern boolean alreadyConnected, alreadyConnectedMain;
 

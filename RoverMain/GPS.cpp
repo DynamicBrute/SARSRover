@@ -32,7 +32,7 @@ void startGPS()
   Serial2.begin(57600);
   
   Serial2.println(PMTK_SET_NMEA_UPDATE_10HZ);
-  Serial2.println(PMTK_API_SET_FIX_CTL_100_MILLIHERTZ);
+  Serial2.println(PMTK_API_SET_FIX_CTL_5HZ);
   Serial2.println(PMTK_SET_NMEA_OUTPUT_RMCONLY);
   
   
@@ -170,7 +170,7 @@ boolean parse(char *nmea)
     {
       speed = atof(p);
     }
-    
+    /*
     // angle
     p = strchr(p, ',')+1;
     if (',' != *p)
@@ -188,7 +188,7 @@ boolean parse(char *nmea)
       day = fulldate / 10000;
       month = (fulldate % 10000) / 100;
       year = (fulldate % 100);
-    }
+    }*/
     // we dont parse the remaining, yet!
     return true;
   }
@@ -211,7 +211,7 @@ uint8_t parseHex(char c) {
 
 void printRMC()
 {
-  Serial.print("\nTime: ");
+  /*Serial.print("\nTime: ");
     Serial.print(hour, DEC); Serial.print(':');
     Serial.print(minute, DEC); Serial.print(':');
     Serial.print(seconds, DEC); Serial.print('.');
@@ -219,7 +219,7 @@ void printRMC()
     Serial.print("Date: ");
     Serial.print(month, DEC); Serial.print('/');
     Serial.print(day, DEC); Serial.print("/20");
-    Serial.println(year, DEC);
+    Serial.println(year, DEC);*/
     Serial.print("Fix: "); Serial.print((int)fix);
     Serial.print(" quality: "); Serial.println((int)fixquality); 
     if (fix) {
@@ -228,9 +228,9 @@ void printRMC()
       //Serial.print(", "); 
       //Serial.print(longitude, 4); Serial.println(lon);
       Serial.print("Location (in degrees, works with Google Maps): ");
-      Serial.print(curLat, 4);
+      Serial.print(curLat, 8);
       Serial.print(", "); 
-      Serial.println(curLon, 4);
+      Serial.println(curLon, 8);
       
       Serial.print("Speed (knots): "); Serial.println(speed);
       //Serial.print("Angle: "); Serial.println(angle);
@@ -295,7 +295,8 @@ boolean pullCurrentLocation()
         {
           updated = false;
           //Serial.println("VALID");
-          delay(1000);
+          Serial.println(line);
+          //delay(1000);
           //debugClient.println("VALID");
           //success = true;
           //Serial.println("about to print");

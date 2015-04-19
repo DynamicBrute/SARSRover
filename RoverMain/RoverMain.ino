@@ -37,9 +37,18 @@ void setup()
   //PING))) and Hall Effect
   startGPIO();
   
+  int x = 0;
+  
   //Sabertooth
-  //startSbth(true);
-  startSbth(false);
+  
+  if(x)
+  {
+    startSbth(true);
+    delay(10000);
+  }
+  
+  else
+    startSbth(false);
   
   ledCode(1);
   //GPS
@@ -51,8 +60,8 @@ void setup()
   
   ledCode(3);
   //CC3100
-  startWiFi();
-  mainServer.begin();
+  //startWiFi();
+  //mainServer.begin();
    
   
   
@@ -106,14 +115,28 @@ void loop()
 {
   if(pollPing() < 1.0 && RS != WAIT_FOR_TARGET && !atDestination());
     //RS = OBST_AVOID;
-  
+  /*
   boolean prevPull = false;
-  for(int i = 0; i < 60 && !prevPull; i++)
-    pullCurrentLocation();
+  for(int i = 0; i < 120 && !prevPull; i++)
+  {
+    //Serial.println("pulling");
+    if(pullCurrentLocation())
+    {
+      prevPull = true;
+    }
+  }*/
+  
+  while(!pullCurrentLocation());
+  
+  Serial.print(curLat, 8);
+  Serial.print(" ");
+  Serial.println(curLon, 8);
+  
   readMag();
   
   boolean temp1;
-
+  
+  Serial.println("switch start");
   switch(RS)
   {
     case WAIT_FOR_TARGET:
@@ -153,6 +176,11 @@ void loop()
           //if necesssary, correct heading
           if(!inHeadingRange())
           {
+            setAccel(FORWARD, 0, (curSpeed - 0));
+            
+            while(curSpeed > 0)
+              decelerate;
+            
             RS = ORIENT_TO_TARGET;
             break;
           }
@@ -171,10 +199,16 @@ void loop()
             break;
           }
           
-          
           if(curSpeed < DRIVE_SPEED)
           {
-            setAccel(FORWARD, DRIVE_SPEED, (DRIVE_SPEED - curSpeed) * 50);
+            setAccel(FORWARD, DRIVE_SPEED, 1);
+            accelerate();accelerate();accelerate();accelerate();
+            //RS = ACCELERATING;
+          }
+          /*
+          if(curSpeed < DRIVE_SPEED)
+          {
+            setAccel(FORWARD, DRIVE_SPEED, 1);
             RS = ACCELERATING;
           }
           /*else
@@ -186,8 +220,10 @@ void loop()
           break;
     
     case ACCELERATING:
-          if(curSpeed != finalSpeed)
-            {accelerate();}
+          
+          ledCode(8);
+           if(curSpeed < finalSpeed)
+            {accelerate();accelerate();accelerate();accelerate();}
           else
           {
             RS = IN_TRANSIT;
@@ -195,6 +231,7 @@ void loop()
           break;
     
     case DECELERATING:
+          ledCode(9);
           if(curSpeed != finalSpeed)
             {decelerate();}
           else
@@ -248,6 +285,8 @@ void loop()
           
           break;
   }
+  
+  Serial.println();
   
   /*
   Serial.println(distToTar());

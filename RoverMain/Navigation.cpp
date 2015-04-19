@@ -78,8 +78,9 @@ boolean inHeadingRange()
 
 boolean atDestination()
 {
-  pullCurrentLocation(); 
-  if(distToTar() < 3)
+  //pullCurrentLocation(); 
+  Serial.println("dest check");
+  if(distToTar() < 10)
       return true; 
   
     return false;

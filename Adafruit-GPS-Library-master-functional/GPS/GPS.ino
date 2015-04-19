@@ -43,10 +43,14 @@ void setup()
   
   //delay(45000);
   
-  Serial2.println(PMTK_SET_NMEA_UPDATE_1HZ);
+  Serial2.println(PMTK_SET_BAUD_57600);
+  
+  Serial2.begin(57600);
+  
+  Serial2.println(PMTK_SET_NMEA_UPDATE_10HZ);
   Serial2.println(PMTK_API_SET_FIX_CTL_200_MILLIHERTZ);
+  //Serial2.println(PMTK_API_SET_FIX_CTL_5HZ);
   Serial2.println(PMTK_SET_NMEA_OUTPUT_RMCONLY);
-  //Serial2.println(PGCMD_ANTENNA);
   
 
   delay(1000);
@@ -85,6 +89,7 @@ void loop()                     // run over and over again
       {
         Serial.println("VALID");
         printRMC();
+        Serial.println("done");
       }
       else
       {
@@ -210,7 +215,7 @@ boolean parse(char *nmea) {
     {
       speed = atof(p);
     }
-    
+    /*
     // angle
     p = strchr(p, ',')+1;
     if (',' != *p)
@@ -233,7 +238,7 @@ boolean parse(char *nmea) {
       day = fulldate / 10000;
       month = (fulldate % 10000) / 100;
       year = (fulldate % 100);
-    }
+    }*/
     // we dont parse the remaining, yet!
     return true;
   }
@@ -278,8 +283,8 @@ void printRMC()
       Serial.println(longitudeDegrees, 4);
       
       Serial.print("Speed (knots): "); Serial.println(speed);
-      Serial.print("Angle: "); Serial.println(angle);
-      Serial.print("Altitude: "); Serial.println(altitude);
-      Serial.print("Satellites: "); Serial.println((int)satellites);
+      //Serial.print("Angle: "); Serial.println(angle);
+      //Serial.print("Altitude: "); Serial.println(altitude);
+      //Serial.print("Satellites: "); Serial.println((int)satellites);
    }
 }

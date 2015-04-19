@@ -79,20 +79,20 @@ void loop()
   float tarLatR = degreesToRadians(tarLat);
   float tarLonR = degreesToRadians(tarLon);
   
-  Serial.print(curLatR);
+  /*Serial.print(curLatR);
   Serial.print(" ");
   Serial.println(curLonR);
   Serial.print(tarLatR);
   Serial.print(" ");
-  Serial.println(tarLonR);
+  Serial.println(tarLonR);*/
   
   float tarHead = atan2(cos(degreesToRadians(curLat)) * sin(degreesToRadians(tarLat)) - sin(degreesToRadians(curLat)) * cos(degreesToRadians(tarLat)) * cos(degreesToRadians(tarLon - curLon)), sin(degreesToRadians(tarLon - curLon)) * cos(degreesToRadians(tarLat)));
   float tarHead2 = atan2(sin(tarLonR - curLonR) * cos(tarLatR), cos(curLatR) * sin(tarLatR) - sin(curLatR) * cos(tarLatR) * cos(tarLonR - curLonR));
   
-  Serial.print("target heading: ");
-  Serial.println(radiansToDegrees(tarHead));
-  Serial.print("target heading2: ");
-  Serial.println((radiansToDegrees(tarHead2) + 360));
+  //Serial.print("target heading: ");
+  //Serial.println(radiansToDegrees(tarHead));
+  //Serial.print("target heading2: ");
+  //Serial.println((radiansToDegrees(tarHead2) + 360));
   
   
   float R = 6371000; // m
@@ -106,8 +106,8 @@ void loop()
     float c = 2 * atan2(sqrt(a), sqrt(1-a)); 
     float d = R * c;
     
-  Serial.print("target distance: ");
-  Serial.println(radiansToDegrees(d));
+  //Serial.print("target distance: ");
+  //Serial.println(radiansToDegrees(d));
   
   delay(1000);
   //Serial.println();

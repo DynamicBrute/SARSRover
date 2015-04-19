@@ -68,8 +68,8 @@ void transmit(int command, int data)
       command2 = M2ST - amount;
     }
     
-    if(command2 > M2ST + (DS / 2))
-      command2 -= reduction;
+    //if(command2 > M2ST + (DS / 2))
+      command2 -= 2;
     
     
     if(command1 > M1FF)
@@ -81,14 +81,21 @@ void transmit(int command, int data)
     if(command2 < M2FR)
       command2 += (M2FR + command2);
     
+    Serial.print("transmitting ");
+      Serial.print(data);
+      Serial.print(" ");
+      Serial.print(command1);
+      Serial.print(" ");
+      Serial.println(command2);
+    
     if(motorEnable)
     {
-      //Serial.print("transmitting ");
-      //Serial.print(data);
-      //Serial.print(" ");
-      //Serial.print(command1);
-      //Serial.print(" ");
-      //Serial.println(command2);
+      Serial.print("transmitting ");
+      Serial.print(data);
+      Serial.print(" ");
+      Serial.print(command1);
+      Serial.print(" ");
+      Serial.println(command2);
       
       Serial6.write(command1);
       Serial6.write(command2);

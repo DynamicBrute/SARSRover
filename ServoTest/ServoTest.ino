@@ -1,11 +1,14 @@
 #include <Servo.h>
 
 Servo myservo;
+Servo myservo2;
 int pos;
 
 // Control and feedback pins
 int servoPin = PC_7;
 int feedbackPin = PC_6;
+int servo2Pin = PC_5;
+int feedback2Pin = PC_4;
  
 // Calibration values
 int minDegrees;
@@ -26,11 +29,14 @@ void setup()
   Serial.begin(9600);
   Serial.println("start");
   
-  pinMode(PC_6, INPUT);
+  pinMode(feedbackPin, INPUT);
+  pinMode(feedback2Pin, INPUT);
   
   myservo.attach(servoPin); 
+  myservo2.attach(servo2Pin);
   
-  calibrate(myservo, feedbackPin, 20, 160);  // calibrate for the 20-160 degree range
+  //calibrate(myservo, feedbackPin, 20, 160);  // calibrate for the 20-160 degree range
+  //calibrate(myservo2, feedback2Pin, 20, 160);
 } 
  
 void loop()
@@ -38,8 +44,9 @@ void loop()
   for(pos = 0; pos < 180; pos += 1)  // goes from 0 degrees to 180 degrees 
   {                                  // in steps of 1 degree 
     myservo.write(pos);              // tell servo to go to position in variable 'pos' 
+    myservo2.write(pos);
     delay(15);                       // waits 15ms for the servo to reach the position 
-    Serial.println(getPos(PC_6));
+    //Serial.println(getPos(feedback));
 
   } 
   
