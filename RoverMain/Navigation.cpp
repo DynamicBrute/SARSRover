@@ -48,9 +48,10 @@ boolean turnToHeading()
   while(!inHeadingRange())// && getDirCommand() == dirCommand)
   {
     readMag();
+    Serial.println(curHead);
   }
   
-  delay(200);
+  //delay(200);
   transmit(LEFT, 0);
   
   if(!inHeadingRange())
@@ -80,7 +81,7 @@ boolean atDestination()
 {
   //pullCurrentLocation(); 
   Serial.println("dest check");
-  if(distToTar() < 10)
+  if(distToTar() < 7)
       return true; 
   
     return false;

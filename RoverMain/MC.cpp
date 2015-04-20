@@ -68,8 +68,8 @@ void transmit(int command, int data)
       command2 = M2ST - amount;
     }
     
-    if(command2 > M2ST + (DS / 2))
-      command2 -= reduction;
+    //if(command2 > M2ST + (DS / 2))
+      command2 -= 2;//reduction;
     
     
     if(command1 > M1FF)

@@ -1,5 +1,6 @@
 #include "GPS.h"
 #include "RoverFi.h"
+#include "Navigation.h"
 
 uint8_t hour, minute, seconds, year, month, day;
 uint16_t milliseconds;
@@ -32,6 +33,7 @@ void startGPS()
   Serial2.begin(57600);
   
   Serial2.println(PMTK_SET_NMEA_UPDATE_10HZ);
+  //Serial2.println(PMTK_API_SET_FIX_CTL_200_MILLIHERTZ);
   Serial2.println(PMTK_API_SET_FIX_CTL_5HZ);
   Serial2.println(PMTK_SET_NMEA_OUTPUT_RMCONLY);
   
@@ -223,10 +225,10 @@ void printRMC()
     Serial.print("Fix: "); Serial.print((int)fix);
     Serial.print(" quality: "); Serial.println((int)fixquality); 
     if (fix) {
-      //Serial.print("Location: ");
-      //Serial.print(latitude, 4); Serial.print(lat);
-      //Serial.print(", "); 
-      //Serial.print(longitude, 4); Serial.println(lon);
+      Serial.print("Location: ");
+      Serial.print(latitude, 4); Serial.print(lat);
+      Serial.print(", "); 
+      Serial.print(longitude, 4); Serial.println(lon);
       Serial.print("Location (in degrees, works with Google Maps): ");
       Serial.print(curLat, 8);
       Serial.print(", "); 
@@ -290,24 +292,32 @@ boolean pullCurrentLocation()
       {
         //boolean result = parse(line);
         //parse(line);
+        Serial.println(line);
         parse(line);
         if(updated)
         {
           updated = false;
           //Serial.println("VALID");
-          Serial.println(line);
+          //Serial.println(line);
           //delay(1000);
           //debugClient.println("VALID");
           //success = true;
           //Serial.println("about to print");
+          if(curLon > 0)
+            curLon *= -1;
           printRMC();
+          indx = 0;
+          
+          if(tarLat > 1 && distToTar() > 100)
+            return false;
+          
           return true;
-        }/*
+        }
         else
         {
           Serial.println("INVALID");
-          Serial.println(line);
-        }*/
+          //Serial.println(line);
+        }
   
         indx = 0;
         //c = NULL;

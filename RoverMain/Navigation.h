@@ -11,7 +11,7 @@
 // Converts radians to degrees.
 #define radiansToDegrees(angleRadians) (angleRadians * 180.0 / M_PI)
 
-#define headingLimit 20
+#define headingLimit 30
 
 extern float tarHead;
 extern boolean avoidObst;

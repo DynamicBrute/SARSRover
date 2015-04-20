@@ -37,7 +37,7 @@ void setup()
   //PING))) and Hall Effect
   startGPIO();
   
-  int x = 0;
+  int x = 01;
   
   //Sabertooth
   
@@ -176,10 +176,12 @@ void loop()
           //if necesssary, correct heading
           if(!inHeadingRange())
           {
-            setAccel(FORWARD, 0, (curSpeed - 0));
+            Serial.println("readjust");
+            
+            setAccel(FORWARD, STOP, 1);
             
             while(curSpeed > 0)
-              decelerate;
+              decelerate();
             
             RS = ORIENT_TO_TARGET;
             break;
@@ -188,6 +190,11 @@ void loop()
           //Destination reached, begin object retrieval
           if(atDestination() && !OBJ_RETRIEVED)
           {
+            setAccel(FORWARD, STOP, 1);
+            
+            while(curSpeed > 0)
+              decelerate();
+            
             RS = OBJ_RETR;
             break;
           }
@@ -279,6 +286,12 @@ void loop()
           break;
           
     case RETURN_HOME:
+    
+          setAccel(FORWARD, STOP, 1);
+            
+            while(curSpeed > 0)
+              decelerate();
+          
           tarLat = homeLat;
           tarLon = homeLon;
           RS = ORIENT_TO_TARGET;

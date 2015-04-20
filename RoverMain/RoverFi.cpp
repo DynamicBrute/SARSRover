@@ -189,8 +189,8 @@ void waitForTarget()
   debugClient.println(tarLon, 6);
   
   //Erick's
-  //tarLat = 28.504906f;
-  //tarLon = -81.457456f;
+  tarLat = 28.504906f;
+  tarLon = -81.457456f;
   
   //apt
   //tarLat = 28.582183f;
@@ -204,8 +204,8 @@ void waitForTarget()
   //curLon = -81.199479f;
   
   //mem mall
-  tarLat = 28.603710f;
-  tarLon = -81.199371f;
+  //tarLat = 28.603710f;
+  //tarLon = -81.199371f;
   
   //matt's
   //tarLat = 28.628391;

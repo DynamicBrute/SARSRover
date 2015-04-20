@@ -12,7 +12,7 @@
 
 // most launchpads have a red LED
 #define LED RED_LED
-#define HE 8
+#define HE PD_3
 
 //see pins_energia.h for more LED definitions
 //#define LED GREEN_LED

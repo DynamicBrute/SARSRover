@@ -20,6 +20,7 @@ uint8_t hour, minute, seconds, year, month, day;
   char lat, lon, mag;
   boolean fix;
   uint8_t fixquality, satellites;
+  float prevLat, prevLon;
 
 int prevFix;
 void setup()
@@ -48,8 +49,8 @@ void setup()
   Serial2.begin(57600);
   
   Serial2.println(PMTK_SET_NMEA_UPDATE_10HZ);
-  Serial2.println(PMTK_API_SET_FIX_CTL_200_MILLIHERTZ);
-  //Serial2.println(PMTK_API_SET_FIX_CTL_5HZ);
+  //Serial2.println(PMTK_API_SET_FIX_CTL_200_MILLIHERTZ);
+  Serial2.println(PMTK_API_SET_FIX_CTL_5HZ);
   Serial2.println(PMTK_SET_NMEA_OUTPUT_RMCONLY);
   
 
@@ -87,14 +88,23 @@ void loop()                     // run over and over again
       
       if(parse(line))
       {
+        Serial.println(line);
         Serial.println("VALID");
         printRMC();
         Serial.println("done");
+        if(prevLat != latitudeDegrees)
+          delay(1000);
+        if(prevLon != longitudeDegrees)
+          delay(1000);
+          
+        prevLat = latitudeDegrees;
+        prevLon = longitudeDegrees;
+
       }
       else
       {
         Serial.println("INVALID");
-        Serial.println(line);
+        //Serial.println(line);
       }
 
       ind = 0;

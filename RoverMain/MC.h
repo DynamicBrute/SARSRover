@@ -19,8 +19,8 @@
 #define FULL 127
 #define STOP 0
 
-#define DRIVE_SPEED 50
-#define TURN_SPEED 35
+#define DRIVE_SPEED 30
+#define TURN_SPEED 43
 
 #define ACCEL_STEP 5
 
