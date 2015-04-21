@@ -6,6 +6,8 @@
 
 #define MAX_LINE_LEN 120
 
+#define KNOTS_TO_MPS 0.514444
+
 extern uint8_t hour, minute, seconds, year, month, day;
 extern uint16_t milliseconds;
 
@@ -20,7 +22,7 @@ extern int32_t latitude_fixed, longitude_fixed;
 
 extern float homeLat, homeLon, curLat, curLon, tarLat, tarLon;
 extern float geoidheight, altitude;
-extern float speed, angle, magvariation, HDOP;
+extern float curSpeedKn, angle, magvariation, HDOP;
 extern char lat, lon, mag;
 extern boolean fix;
 extern uint8_t fixquality, satellites;

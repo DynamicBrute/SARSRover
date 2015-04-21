@@ -1,5 +1,7 @@
 #include "RoverFi.h"
 #include "GPS.h"
+#include "GPIO.h"
+#include "HMC5883.h"
 //#include "RoverMain.h"
 
 char ssid[] = "SARSNet";
@@ -13,8 +15,9 @@ WiFiClient debugClient;
 WiFiServer debugServer(3284);
 WiFiServer mainServer(7277);
 WiFiServer teleServer(8353);
+WiFiClient teleClient;
 
-boolean alreadyConnected, alreadyConnectedMain;
+boolean alreadyConnected, alreadyConnectedMain, alreadyConnectedTele;
 
 //Connect to a WiFi network
 void startWiFi()
@@ -24,7 +27,10 @@ void startWiFi()
     // print the network name (SSID);
     Serial.println(ssid); 
     // Connect to WPA/WPA2 network. Change this line if using open or WEP network:
-    WiFi.beginNetwork(ssid, password);
+    //Serial.print("IP: ");
+    //Serial.println(WiFi.localIP());
+    //if(WiFi.localIP() == INADDR_NONE)
+      WiFi.beginNetwork(ssid, password);
    /* while ( WiFi.status() != WL_CONNECTED) {
       // print dots while we wait to connect
       Serial.print(".");
@@ -81,10 +87,7 @@ void printWifiStatus() {
 void waitForTarget()
 {
   //define a client object to connect to the server
-  /*WiFiClient mainClient;
-  
-  //debug LED
-  digitalWrite(LED1, HIGH);
+  WiFiClient mainClient;
   
   //wait for a client to connect to the server
   while(!alreadyConnectedMain)
@@ -124,6 +127,31 @@ void waitForTarget()
   //Wait for input to be on the buffer
   while(!mainClient.available());
   
+  char destNum = '0';
+  
+  while(!(destNum == '1' || destNum == '2' || destNum == '3'))
+  {
+    destNum = mainClient.read();
+    Serial.println(destNum);
+  }
+  
+  if(destNum == '1')
+  {
+    tarLat = LAT1;
+    tarLon = LON1;
+  }
+  if(destNum == '2')
+  {
+    tarLat = LAT2;
+    tarLon = LON2;
+  }
+  if(destNum == '3')
+  {
+    tarLat = LAT3;
+    tarLon = LON3;
+  }
+  
+  /*
   //Read in characters from the input buffer until a new line character is reached
   //this will be the latitude
   while(mainClient.available())
@@ -157,18 +185,17 @@ void waitForTarget()
       
       ind++; 
     }
-    
+  
   mainClient.stop();
   
   //convert from a string to a float
   tarLat = strtof(lat, NULL);
   tarLon = strtof(lon, NULL);
-*/
   
   //digitalWrite(LED1, LOW);
   
   //tarLat = atof(lat);
-  //tarLon = atof(lon);
+  //tarLon = atof(lon);*/  
   
   Serial.print("Lat: ");
   Serial.print(lat);
@@ -189,8 +216,8 @@ void waitForTarget()
   debugClient.println(tarLon, 6);
   
   //Erick's
-  tarLat = 28.504906f;
-  tarLon = -81.457456f;
+  //tarLat = 28.504906f;
+  //tarLon = -81.457456f;
   
   //apt
   //tarLat = 28.582183f;
@@ -210,4 +237,61 @@ void waitForTarget()
   //matt's
   //tarLat = 28.628391;
   //tarLon = -81.200013;
+}
+
+void transmitTele()
+{
+  Serial.println("tele"); 
+  
+  while(!alreadyConnectedTele)
+  {
+    //attempt to save a client connecting to the server
+    teleClient = teleServer.available();
+    
+    //if a client is connected, begin communication
+    if (teleClient) {
+      if (!alreadyConnectedTele) {
+        // clead out the input buffer:
+        teleClient.flush();
+        Serial.println("We have a new client");
+        alreadyConnectedTele = true;
+        
+      }
+    }
+  }
+  
+    for(int i = 0; i < 20; i++)
+    {
+      if (teleClient.available() > 0) {
+        // read the bytes incoming from the client:
+        char thisChar = teleClient.read();
+        // echo the bytes back to the client:
+        
+        if(thisChar == '1')
+          teleServer.println(curSpeedKn * KNOTS_TO_MPS);
+          
+        if(thisChar == '2')  
+          teleServer.println(pollPing());
+          
+        if(thisChar == '3')
+          teleServer.println(distToTar());
+          
+        if(thisChar == '4')
+          teleServer.println(curLat);
+        
+        if(thisChar == '5')
+          teleServer.println(curLon);
+        
+        if(thisChar == '6')
+          teleServer.println(curHead);
+        
+        
+        // echo the bytes to the server as well:
+        Serial.println(thisChar);
+      }
+    }
+    
+    
+    
+  
 }

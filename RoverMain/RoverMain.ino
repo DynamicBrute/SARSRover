@@ -39,7 +39,7 @@ void setup()
   //PING))) and Hall Effect
   startGPIO();
   
-  int x = 01;
+  int x = 0;
   
   //Sabertooth
   
@@ -54,16 +54,17 @@ void setup()
   
   ledCode(1);
   //GPS
-  startGPS();
+  //startGPS();
   
   ledCode(2);
   //Compass
-  startCompass();
+  //startCompass();
   
   ledCode(3);
   //CC3100
-  //startWiFi();
-  //mainServer.begin();
+  startWiFi();
+  mainServer.begin();
+  teleServer.begin();
    
   
   
@@ -132,15 +133,17 @@ void loop()
     }
   }*/
   
-  while(!pullCurrentLocation());
+  //while(!pullCurrentLocation());
   
   Serial.print(curLat, 8);
   Serial.print(" ");
   Serial.println(curLon, 8);
   
-  readMag();
+  //readMag();
   
-  boolean temp1;
+  transmitTele();
+  
+  //boolean temp1;
   
   Serial.println("switch start");
   switch(RS)
@@ -148,7 +151,8 @@ void loop()
     case WAIT_FOR_TARGET:
           ledCode(4);
           waitForTarget();
-          RS = WAIT_FOR_LOC_UPDATE;
+          RS = HOLD;
+          //RS = WAIT_FOR_LOC_UPDATE;
           
           break;
           
@@ -308,6 +312,9 @@ void loop()
           RS = ORIENT_TO_TARGET;
           
           break;
+          
+     case HOLD:
+         break;
   }
   
   Serial.println();

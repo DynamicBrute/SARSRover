@@ -16,7 +16,7 @@ int32_t latitude_fixed, longitude_fixed;
 
 float homeLat, homeLon, curLat, curLon, tarLat, tarLon;
 float geoidheight, altitude;
-float speed, angle, magvariation, HDOP;
+float curSpeedKn, angle, magvariation, HDOP;
 char lat, lon, mag;
 boolean fix;
 uint8_t fixquality, satellites;
@@ -166,11 +166,11 @@ boolean parse(char *nmea)
       else if (p[0] == ',') lon = 0;
       else return false;
     }
-    // speed
+    // curSpeedKn
     p = strchr(p, ',')+1;
     if (',' != *p)
     {
-      speed = atof(p);
+      curSpeedKn = atof(p);
     }
     /*
     // angle
@@ -234,7 +234,7 @@ void printRMC()
       Serial.print(", "); 
       Serial.println(curLon, 8);
       
-      Serial.print("Speed (knots): "); Serial.println(speed);
+      Serial.print("Speed (knots): "); Serial.println(curSpeedKn);
       //Serial.print("Angle: "); Serial.println(angle);
       //Serial.print("Altitude: "); Serial.println(altitude);
       //Serial.print("Satellites: "); Serial.println((int)satellites);
@@ -261,7 +261,7 @@ void printRMC()
       debugClient.print(", "); 
       debugClient.println(curLon, 4);
       
-      debugClient.print("Speed (knots): "); debugClient.println(speed);
+      debugClient.print("Speed (knots): "); debugClient.println(curSpeedKn);
       debugClient.print("Angle: "); debugClient.println(angle);
       debugClient.print("Altitude: "); debugClient.println(altitude);
       debugClient.print("Satellites: "); debugClient.println((int)satellites);
