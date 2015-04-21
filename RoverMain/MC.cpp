@@ -4,6 +4,8 @@ unsigned int command1;
 unsigned int command2;
 unsigned int curSpeed;
 
+unsigned int TURN_SPEED;
+
 int ADCommand, finalSpeed, currentSpeed, initialSpeed, rate;
 
 boolean motorEnable;
@@ -138,4 +140,24 @@ void decelerate()
   currentSpeed -= ACCEL_STEP;  
     transmit(ADCommand, currentSpeed);
     delay(20);//rate / ((initialSpeed - finalSpeed) / ACCEL_STEP));
+}
+
+boolean calibrate()
+{
+  while(true)
+  {
+    transmit(RIGHT, TURN_SPEED);
+    
+    countRevs();
+    
+    transmit(RIGHT, STOP);
+    
+    if(revRange() < REV_DIFF_LIM)
+      return true;
+      
+    TURN_SPEED += 3;
+    
+    if(TURN_SPEED > 80)
+      return false;
+  }
 }

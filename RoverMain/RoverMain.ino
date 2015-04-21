@@ -377,10 +377,5 @@ void ledCode(int value)
 
 
 
-//REFERENCE CODE
-//LED off if H.E.S. is not reading a signal
-  /*if(digitalRead(HE1))
-    digitalWrite(LED, LOW);
-  else
-    digitalWrite(LED, HIGH);*/
+
 

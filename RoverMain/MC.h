@@ -1,4 +1,5 @@
 #include <Energia.h>
+#include "GPIO.h"
 
 #define PACKETIZED 0
 #define RESOLUTION 7
@@ -20,14 +21,18 @@
 #define STOP 0
 
 #define DRIVE_SPEED 30
-#define TURN_SPEED 43
+//#define TURN_SPEED 43
 #define SEARCH_SPEED 25
 
 #define ACCEL_STEP 5
 
+#define REV_DIFF_LIM 15
+
 extern unsigned int command1;
 extern unsigned int command2;
 extern unsigned int curSpeed;
+
+extern unsigned int TURN_SPEED;
 
 extern int ADCommand, finalSpeed, currentSpeed, initialSpeed, rate;
 
@@ -46,3 +51,5 @@ void transmit(int command, int data);
 void setAccel(int command, int final, int rate);
 void accelerate();
 void decelerate();
+
+boolean calibrate();
