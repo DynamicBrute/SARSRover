@@ -8,7 +8,7 @@ void setup()
   // put your setup code here, to run once:
   startSbth(true);
   
-  delay(10000);
+  delay(5000);
 }
 
 void loop()
@@ -38,17 +38,24 @@ void loop()
   
   delay(30000);*/
   
-  
-  transmit(RIGHT, TURN_SPEED+10);
-  delay(300);
-  transmit(RIGHT, TURN_SPEED);
-  delay(3000);
+  for(int i = 0; i < 10; i++)
+  {
+    transmit(RIGHT, TURN_SPEED+20);
+    delay(100);
+    transmit(RIGHT, TURN_SPEED-10);
+    delay(100);
+  }
   transmit(RIGHT, STOP);
   delay(2000);
-  transmit(LEFT, TURN_SPEED+10);
-  delay(300);
-  transmit(LEFT, TURN_SPEED);
-  delay(3000);
+  
+  for(int i = 0; i < 10; i++)
+  {
+    transmit(LEFT, TURN_SPEED+20);
+    delay(100);
+    transmit(LEFT, TURN_SPEED-10);
+    delay(100);
+  }
+
   transmit(LEFT, STOP);
   delay(10000);
   

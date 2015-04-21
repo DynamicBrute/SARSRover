@@ -5,6 +5,8 @@
 #include "HMC5883.h"
 #include "Navigation.h"
 #include "GPIO.h"
+#include "Arm.h"
+#include "ObjRetr.h"
 
 
 
@@ -92,6 +94,10 @@ void setup()
     digitalWrite(LED, LOW);
     delay(100);
   }*/
+  
+  
+  //Arm
+  startArm();
   
   /*curLon = -81.202980;
   curLat = 28.582378;
@@ -278,7 +284,12 @@ void loop()
     case OBJ_RETR:
           
           ledCode(10);
-          delay(10000);
+          
+          if(!searchForObject())
+          {
+            RS = ORIENT_TO_TARGET;
+            break;
+          }
           
           OBJ_RETRIEVED = true;
           RS = RETURN_HOME;

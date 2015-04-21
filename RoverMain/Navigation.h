@@ -1,6 +1,6 @@
 #include <Energia.h>
-#include "HMC5883.h"
 #include "GPS.h"
+#include "HMC5883.h"
 #include "MC.h"
 
 #define M_PI 3.14159265359

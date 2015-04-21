@@ -21,6 +21,7 @@
 
 #define DRIVE_SPEED 30
 #define TURN_SPEED 43
+#define SEARCH_SPEED 25
 
 #define ACCEL_STEP 5
 

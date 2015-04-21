@@ -41,18 +41,6 @@ CC3100 BoosterPack 1 (USB facing through-holes
 #define LED4 PF_0
 /////////////////////////////////////////////////
 
-
-//SERVOS/////////////////////////////////////////
-#define S1_D PC_7
-#define S1_F PC_6
-#define S2_D PC_5
-#define S2_F PC_4
-
-#include <Servo.h>
-
-Servo S1;
-Servo S2;
-
 /************************************************************************/
 
 /*SOFTWARE DEFINITIONS/FUNCTIONS*****************************************/
